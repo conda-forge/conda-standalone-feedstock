@@ -5,11 +5,9 @@ Home: https://github.com/AnacondaRecipes/conda-standalone-feedstock
 
 Package license: BSD-3-Clause
 
-Feedstock license: BSD-3-Clause
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/conda-standalone-feedstock/blob/master/LICENSE.txt)
 
 Summary: Entry point and dependency collection for PyInstaller-based standalone conda.
-
-
 
 Current build status
 ====================
