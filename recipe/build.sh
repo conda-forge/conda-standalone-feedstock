@@ -1,5 +1,6 @@
 if [[ "$build_platform" != "$target_platform" ]]; then
   SP_DIR=$BUILD_PREFIX/lib/python${PY_VER}/site-packages
+  cp -f $PREFIX/bin/python${PY_VER} $PREFIX/bin/python
 fi
 
 # patched conda files
