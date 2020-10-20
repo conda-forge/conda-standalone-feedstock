@@ -1,3 +1,7 @@
+if [[ "$build_platform" != "$target_platform" ]]; then
+  SP_DIR=$BUILD_PREFIX/lib/python${PY_VER}/site-packages
+fi
+
 # patched conda files
 # new files in patches need to be added here
 for fname in "core/path_actions.py" "utils.py" "core/portability.py" "gateways/disk/update.py"; do
