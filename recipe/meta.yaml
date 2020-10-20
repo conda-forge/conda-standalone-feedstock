@@ -31,6 +31,10 @@ build:
   number: 3
 
 requirements:
+  build:
+    - cross-python_{{ target_platform }}   # [build_platform != target_platform]
+    - python 3.8.*                         # [osx and arm64 and (build_platform != target_platform)]
+    - python 3.7.*                         # [not (osx and arm64) and (build_platform != target_platform)]
   host:
     - pyinstaller
     - conda ={{ version }}
