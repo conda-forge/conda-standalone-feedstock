@@ -27,13 +27,15 @@ source:
     folder: constructor  # [win]
 
 build:
-  number: 1
+  number: 3
 
 requirements:
   host:
     - pyinstaller
     - conda ={{ version }}
     - conda-package-handling >=1.6
+    - python 3.7.*  # [not (osx and arm64)]
+    - python 3.8.*  # [osx and arm64]
 
 test:
   commands:
