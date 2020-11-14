@@ -176,7 +176,6 @@ Feedstock Maintainers
 =====================
 
 * [@forrestwaters](https://github.com/forrestwaters/)
-* [@hadim](https://github.com/hadim/)
 * [@jakirkham](https://github.com/jakirkham/)
 * [@msarahan](https://github.com/msarahan/)
 * [@nehaljwani](https://github.com/nehaljwani/)
