@@ -40,6 +40,8 @@ requirements:
 
 test:
   commands:
+    - source /opt/conda/etc/profile.d/conda.sh                                 # [linux]
+    - source ~/miniforge3/etc/profile.d/conda.sh                               # [osx]
     - conda deactivate                                                         # [unix]
     - ${PREFIX}/standalone_conda/conda.exe -V                                  # [unix]
     - ${PREFIX}/standalone_conda/conda.exe info -a                             # [unix]
