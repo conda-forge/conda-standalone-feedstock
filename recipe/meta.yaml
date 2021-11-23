@@ -1,4 +1,4 @@
-{% set version = "4.10.3" %}
+{% set version = "4.12.dev" %}
 {% set menuinst_version = "1.4.16" %}
 {% set constructor_version = "3.1.0" %}
 {% set python_version = "3.7.8" %}
@@ -9,8 +9,7 @@ package:
 
 source:
   - path: ./
-  - url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
-    sha256: 9e83bb20a6b9adc0bd7abccaa4738a71dc04e19a42dc51ad543539c15b2c941a
+  - url: https://github.com/jaimergp/conda/archive/cep-menuinst.tar.gz
     folder: conda_src
     patches:
       - conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
@@ -41,9 +40,13 @@ requirements:
 
 test:
   commands:
-    - ${PREFIX}/standalone_conda/conda.exe -V    # [unix]
-    - ${PREFIX}/standalone_conda/conda.exe create -y -p ./env_test zlib tqdm    # [unix]
-    - '%PREFIX%\standalone_conda\conda.exe -V'    # [win]
+    - conda deactivate                                                         # [unix]
+    - ${PREFIX}/standalone_conda/conda.exe -V                                  # [unix]
+    - ${PREFIX}/standalone_conda/conda.exe info -a                             # [unix]
+    - ${PREFIX}/standalone_conda/conda.exe create -y -p ./env_test zlib tqdm   # [unix]
+    - deactivate                                                               # [win]
+    - '%PREFIX%\standalone_conda\conda.exe -V'                                 # [win]
+    - '%PREFIX%\standalone_conda\conda.exe info -a'                            # [win]
     - '%PREFIX%\standalone_conda\conda.exe create -y -p env_test zlib tqdm'    # [win]
 
 about:
