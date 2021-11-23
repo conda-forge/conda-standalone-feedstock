@@ -1,0 +1,2 @@
+channel_sources:
+  - napari/label/bundle_tools,conda-forge

@@ -1,7 +1,7 @@
 cdt_name:
 - cos6
 channel_sources:
-- conda-forge
+- napari/label/bundle_tools,conda-forge
 channel_targets:
 - conda-forge main
 docker_image:
