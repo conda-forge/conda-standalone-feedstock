@@ -5,9 +5,7 @@ import os
 import site
 import sys
 
-packages = ['conda', 'conda-package-handling']
-if sys.platform == "win32":
-    packages.append('menuinst')
+packages = ['conda', 'conda-package-handling', 'menuinst']
 files = [f for package in packages
          for f in glob.glob(
                  os.path.join(os.getenv('SP_DIR', site.getsitepackages()[0]), package, "**/*.py"),
