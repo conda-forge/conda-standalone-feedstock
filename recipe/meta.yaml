@@ -15,19 +15,19 @@ source:
       - conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
       - conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch
 
-  - url: https://github.com/ContinuumIO/menuinst/archive/{{ menuinst_version }}.tar.gz
-    sha256: cedca2f949f1b6f64e3cfbc2347c552f59f83f28cee9c6d5d0101a4dc61b39ca
-    folder: menuinst_src
-    patches:
-      - menuinst_patches/0001-Do-not-assume-menuinst-wants-to-operate-on-sys.prefi.patch
-      - menuinst_patches/0002-Allow-menuinst-to-operate-on-non-base-prefix.patch
+  # - url: https://github.com/ContinuumIO/menuinst/archive/{{ menuinst_version }}.tar.gz
+  #   sha256: cedca2f949f1b6f64e3cfbc2347c552f59f83f28cee9c6d5d0101a4dc61b39ca
+  #   folder: menuinst_src
+  #   patches:
+  #     - menuinst_patches/0001-Do-not-assume-menuinst-wants-to-operate-on-sys.prefi.patch
+  #     - menuinst_patches/0002-Allow-menuinst-to-operate-on-non-base-prefix.patch
 
   - url: https://github.com/conda/constructor/archive/{{ constructor_version }}.tar.gz  # [win]
     sha256: 13926446679d1e01c6700c3315916536fe57b461fca0e06fbe32eab9e1ba3657  # [win]
     folder: constructor  # [win]
 
 build:
-  number: 3
+  number: 4
   ignore_run_exports:
     - '*'
 
