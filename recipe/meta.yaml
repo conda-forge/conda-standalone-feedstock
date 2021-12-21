@@ -27,7 +27,7 @@ source:
     folder: constructor  # [win]
 
 build:
-  number: 8
+  number: 9
   ignore_run_exports:
     - '*'
 
