@@ -23,7 +23,7 @@ source:
       - constructor_patches/0002-Fix-behaviour-of-creating-shortcut-menu-create-menu-.patch  # [win]
 
 build:
-  number: 1
+  number: 2
   ignore_run_exports:
     - '*'
 
