@@ -20,7 +20,7 @@ source:
     folder: constructor  # [win]
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports:
     - '*'
 
@@ -40,6 +40,9 @@ test:
     - ${PREFIX}/standalone_conda/conda.exe create -y -p ./env_test zlib tqdm    # [unix]
     - '%PREFIX%\standalone_conda\conda.exe -V'    # [win]
     - '%PREFIX%\standalone_conda\conda.exe create -y -p env_test zlib tqdm'    # [win]
+    # Make sure we're not dynamically linking to zlib
+    - otool -L "${PREFIX}/standalone_conda/conda.exe" | ( ! grep 'libz' )  # [osx]
+    - ldd "${PREFIX}/standalone_conda/conda.exe" | ( ! grep 'libz' )  # [linux]
 
 about:
   home: https://github.com/AnacondaRecipes/conda-standalone-feedstock
