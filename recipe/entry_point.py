@@ -1,5 +1,6 @@
 #!/spare/local/nwani/pyinstaller_stuff/dev/bin/python
 # -*- coding: utf-8 -*-
+import os
 import sys
 
 from concurrent.futures import Executor
@@ -35,7 +36,13 @@ if __name__ == '__main__':
        p.add_argument(
                '--extract-conda-pkgs',
                action="store_true",
-               help="path to conda prefix")
+               help="extract all packages in $PREFIX/pkgs where $PREFIX is set by --prefix")
+       p.add_argument(
+               '--num-processors',
+               action="store",
+               default=None,
+               type=int,
+               help="The number of processors to use for parallel package extraction")
        p.add_argument(
                '--extract-tarball',
                action="store_true",
@@ -56,7 +63,15 @@ if __name__ == '__main__':
            import tqdm
            from conda_package_handling import api
            from concurrent.futures import ProcessPoolExecutor
-           executor = ProcessPoolExecutor()
+
+           if args.num_processors:
+               if args.num_processors < 1:
+                   raise ValueError("--num-processors must be an integer greater than or equal to 1")
+               if os.name == "nt":
+                   # See Windows notes: https://docs.python.org/3/library/concurrent.futures.html#processpoolexecutor
+                   args.num_processors = min(args.num_processors, 61)
+
+           executor = ProcessPoolExecutor(max_workers=args.num_processors)
 
            os.chdir("pkgs")
            flist = []

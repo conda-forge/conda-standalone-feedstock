@@ -1,6 +1,6 @@
 {% set version = "4.12.0" %}
-{% set constructor_version = "3.2.2" %}
-{% set python_version = "3.9.9" %}
+{% set constructor_version = "3.3.1" %}
+{% set python_version = "3.9.13" %}
 
 package:
   name: conda-standalone
@@ -20,7 +20,7 @@ source:
     folder: constructor  # [win]
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports:
     - '*'
 
