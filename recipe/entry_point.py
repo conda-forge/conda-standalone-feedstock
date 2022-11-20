@@ -13,6 +13,12 @@ class DummyExecutor(Executor):
             for thing in iterable:
                 yield func(thing)
 
+# This might be None!
+CPU_COUNT = os.cpu_count()
+
+# See validation results for magic number of 3
+# https://dholth.github.io/conda-benchmarks/#extract.TimeExtract.time_extract?conda-package-handling=2.0.0a2&p-format='.conda'&p-format='.tar.bz2'&p-lang='py'&x-axis=format
+DEFAULT_NUM_WORKERS = 1 if not CPU_COUNT else max(3, CPU_COUNT)
 
 def validate_max_workers(num_str: str) -> int:
     """Converts a string representing the max number of workers to an integer
@@ -33,7 +39,7 @@ def validate_max_workers(num_str: str) -> int:
 
         # See Windows notes for magic number of 61
         # https://docs.python.org/3/library/concurrent.futures.html#processpoolexecutor
-        max_cpu_num = min(os.cpu_count(), 61) if (os.name == "nt") else os.cpu_count()
+        max_cpu_num = min(CPU_COUNT, 61) if (os.name == "nt") else CPU_COUNT
 
         if (num > max_cpu_num):
             raise ValueError(ERROR_MSG)
@@ -68,7 +74,7 @@ if __name__ == '__main__':
        p.add_argument(
                '--num-processors',
                action="store",
-               default=None,
+               default=DEFAULT_NUM_WORKERS,
                type=validate_max_workers,
                help="The number of processors to use for parallel package extraction")
        p.add_argument(
