@@ -35,7 +35,7 @@ def validate_max_workers(num_str: str) -> int:
         raise ValueError(ERROR_MSG)
 
     # cpu_count can return None, so skip this check if that happens
-    if os.cpu_count():
+    if CPU_COUNT:
 
         # See Windows notes for magic number of 61
         # https://docs.python.org/3/library/concurrent.futures.html#processpoolexecutor
