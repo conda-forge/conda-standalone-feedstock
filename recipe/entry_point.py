@@ -13,6 +13,34 @@ class DummyExecutor(Executor):
             for thing in iterable:
                 yield func(thing)
 
+
+def validate_max_workers(num_str: str) -> int:
+    """Converts a string representing the max number of workers to an integer
+    while performing validation checks; raises ValueError if anything fails."""
+
+    ERROR_MSG = "Max workers must be integer between 1 and the CPU count of the machine."
+
+    try:
+        num = int(num_str)
+    except ValueError as exc:
+        raise ValueError(ERROR_MSG) from exc
+
+    if (num < 1):
+        raise ValueError(ERROR_MSG)
+
+    # cpu_count can return None, so skip this check if that happens
+    if os.cpu_count():
+
+        # See Windows notes for magic number of 61
+        # https://docs.python.org/3/library/concurrent.futures.html#processpoolexecutor
+        max_cpu_num = min(os.cpu_count(), 61) if (os.name == "nt") else os.cpu_count()
+
+        if (num > max_cpu_num):
+            raise ValueError(ERROR_MSG)
+
+    return num
+
+
 if __name__ == '__main__':
     freeze_support()
     # https://docs.python.org/3/library/multiprocessing.html#multiprocessing.freeze_support
@@ -41,7 +69,7 @@ if __name__ == '__main__':
                '--num-processors',
                action="store",
                default=None,
-               type=int,
+               type=validate_max_workers,
                help="The number of processors to use for parallel package extraction")
        p.add_argument(
                '--extract-tarball',
@@ -64,14 +92,7 @@ if __name__ == '__main__':
            from conda_package_handling import api
            from concurrent.futures import ProcessPoolExecutor
 
-           if args.num_processors:
-               if args.num_processors < 1:
-                   raise ValueError("--num-processors must be an integer greater than or equal to 1")
-               if os.name == "nt":
-                   # See Windows notes: https://docs.python.org/3/library/concurrent.futures.html#processpoolexecutor
-                   args.num_processors = min(args.num_processors, 61)
-
-           executor = ProcessPoolExecutor(max_workers=args.num_processors)
+           executor = ProcessPoolExecutor(max_workers=args.max_workers)
 
            os.chdir("pkgs")
            flist = []
