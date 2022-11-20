@@ -18,7 +18,7 @@ CPU_COUNT = os.cpu_count()
 
 # See validation results for magic number of 3
 # https://dholth.github.io/conda-benchmarks/#extract.TimeExtract.time_extract?conda-package-handling=2.0.0a2&p-format='.conda'&p-format='.tar.bz2'&p-lang='py'&x-axis=format
-DEFAULT_NUM_WORKERS = 1 if not CPU_COUNT else max(3, CPU_COUNT)
+DEFAULT_NUM_WORKERS = 1 if not CPU_COUNT else min(3, CPU_COUNT)
 
 def validate_max_workers(num_str: str) -> int:
     """Converts a string representing the max number of workers to an integer
