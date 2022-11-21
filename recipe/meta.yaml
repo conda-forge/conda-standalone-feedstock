@@ -28,7 +28,7 @@ build:
 requirements:
   build:
     - pyinstaller <5.0.0  # [osx]
-    - pyinstaller  # [win or unix]
+    - pyinstaller  # [win or linux]
     - python ={{ python_version }}
     - conda ={{ version }}
     - conda-package-handling >=1.6
