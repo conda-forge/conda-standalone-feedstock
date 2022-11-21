@@ -24,9 +24,11 @@ build:
   ignore_run_exports:
     - '*'
 
+# Some strange issue with codesigning on osx is occuring with pyinstaller since 5.0
 requirements:
   build:
-    - pyinstaller
+    - pyinstaller <5.0.0 # [osx]
+    - pyinstaller # [win or unix]
     - python ={{ python_version }}
     - conda ={{ version }}
     - conda-package-handling >=1.6
