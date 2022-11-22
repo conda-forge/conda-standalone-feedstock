@@ -24,11 +24,9 @@ build:
   ignore_run_exports:
     - '*'
 
-# For OSX pinning of pyinstaller see https://github.com/pyinstaller/pyinstaller/issues/6167
 requirements:
   build:
-    - pyinstaller =4.3  # [osx]
-    - pyinstaller  # [win or linux]
+    - pyinstaller
     - python ={{ python_version }}
     - conda ={{ version }}
     - conda-package-handling >=1.6
