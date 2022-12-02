@@ -41,7 +41,7 @@ test:
   commands:
     - ${PREFIX}/standalone_conda/conda.exe -V    # [unix]
     - ${PREFIX}/standalone_conda/conda.exe create -y -p ./env_test zlib tqdm    # [unix]
-    - ${PREFIX}/standalone_conda/conda.exe constructor --extract-conda-pkgs --prefix testprefix'  # [unix]
+    - ${PREFIX}/standalone_conda/conda.exe constructor --extract-conda-pkgs --prefix testprefix  # [unix]
     - '%PREFIX%\standalone_conda\conda.exe -V'    # [win]
     - '%PREFIX%\standalone_conda\conda.exe create -y -p env_test zlib tqdm'    # [win]
     - '%PREFIX%\standalone_conda\conda.exe constructor --extract-conda-pkgs --prefix testprefix'  # [win]
