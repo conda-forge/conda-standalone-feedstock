@@ -30,6 +30,7 @@ requirements:
     - python ={{ python_version }}
     - conda ={{ version }}
     - conda-package-handling >=1.6
+    - tqdm
     - menuinst >=1.4.18  # [win]
   run_constrained:
     - constructor >=3.2.2
