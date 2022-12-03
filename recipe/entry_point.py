@@ -102,8 +102,6 @@ if __name__ == '__main__':
             from conda_package_handling import api
             from concurrent.futures import ProcessPoolExecutor
 
-            executor = ProcessPoolExecutor(max_workers=args.num_processors)
-
             os.chdir("pkgs")
             flist = []
             for ext in CONDA_PACKAGE_EXTENSIONS:
@@ -112,9 +110,10 @@ if __name__ == '__main__':
                         fn = os.path.join(os.getcwd(), pkg)
                         flist.append(fn)
             with tqdm.tqdm(total=len(flist), leave=False) as t:
-                for fn, _ in zip(flist, executor.map(api.extract, flist)):
-                    t.set_description("Extracting : %s" % os.path.basename(fn))
-                    t.update()
+                with ProcessPoolExecutor(max_workers=args.num_processors) as executor:
+                    for fn, _ in zip(flist, executor.map(api.extract, flist)):
+                        t.set_description("Extracting : %s" % os.path.basename(fn))
+                        t.update()
 
         if args.extract_tarball:
             import tarfile
