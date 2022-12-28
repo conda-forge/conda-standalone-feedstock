@@ -1,6 +1,6 @@
 {% set version = "4.12.0" %}
-{% set constructor_version = "3.2.2" %}
-{% set python_version = "3.9.9" %}
+{% set constructor_version = "3.3.1" %}
+{% set python_version = "3.9.15" %}
 
 package:
   name: conda-standalone
@@ -16,11 +16,11 @@ source:
       - conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch
 
   - url: https://github.com/conda/constructor/archive/{{ constructor_version }}.tar.gz  # [win]
-    sha256: 57497a316a26631bb56c354a727980889015a1a79bf1a51131695ddbc51a0ca5  # [win]
+    sha256: b000dde0ac8641c92f7342362173968505d4e85845be37655b5b9221cb65f3a8  # [win]
     folder: constructor  # [win]
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports:
     - '*'
 
@@ -30,16 +30,21 @@ requirements:
     - python ={{ python_version }}
     - conda ={{ version }}
     - conda-package-handling >=1.6
+    - tqdm
     - menuinst >=1.4.18  # [win]
   run_constrained:
     - constructor >=3.2.2
 
 test:
+  files:
+    - testprefix
   commands:
     - ${PREFIX}/standalone_conda/conda.exe -V    # [unix]
     - ${PREFIX}/standalone_conda/conda.exe create -y -p ./env_test zlib tqdm    # [unix]
+    - ${PREFIX}/standalone_conda/conda.exe constructor --extract-conda-pkgs --prefix testprefix  # [unix]
     - '%PREFIX%\standalone_conda\conda.exe -V'    # [win]
     - '%PREFIX%\standalone_conda\conda.exe create -y -p env_test zlib tqdm'    # [win]
+    - '%PREFIX%\standalone_conda\conda.exe constructor --extract-conda-pkgs --prefix testprefix'  # [win]
 
 about:
   home: https://github.com/AnacondaRecipes/conda-standalone-feedstock
