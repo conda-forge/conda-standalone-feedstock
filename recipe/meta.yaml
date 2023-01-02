@@ -22,7 +22,6 @@ source:
 
 build:
   number: 1
-  skip: true  # [py != 39]
   ignore_run_exports:
     - '*'
 
