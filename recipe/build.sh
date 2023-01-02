@@ -9,13 +9,14 @@ done
 # `base` conda might use sigtool, which ships a codesign binary that shadows Apple's one
 # pyinstaller expects that one first in PATH
 if [[ $target_platform = "osx-"* ]]; then
+  mkdir -p "$BUILD_PREFIX/bin"
   ln -s /usr/bin/codesign "$BUILD_PREFIX/bin/codesign"
+  # when cross-building, we need to run build's python (but without the cross-python magic)
+  if [[ $build_platform != $target_platform ]]; then  
+    export PYTHON="$BUILD_PREFIX/bin/python"
+  fi
 fi
 
-# when cross-building, we need to run build's python (but without the cross-python magic)
-if [[ $target_platform == osx-* && $build_platform != $target_platform ]]; then  
-  export PYTHON="$BUILD_PREFIX/bin/python"
-fi
 "${PYTHON}" -m PyInstaller conda.exe.spec
 mkdir -p $PREFIX/standalone_conda
 mv dist/conda.exe $PREFIX/standalone_conda
