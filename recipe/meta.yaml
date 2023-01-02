@@ -1,6 +1,7 @@
 {% set version = "22.11.1" %}
 {% set constructor_version = "3.3.1" %}
 {% set python_version = "3.9.15" %}
+{% set menuinst_version = "1.4.18" %}
 
 package:
   name: conda-standalone
@@ -20,29 +21,41 @@ source:
     folder: constructor  # [win]
 
 build:
-  number: 0
+  number: 1
+  skip: true  # [py != 39]
   ignore_run_exports:
     - '*'
 
 requirements:
   build:
+    - python {{ python_version }}  # [build_platform != target_platform]
+    # These are not needed technically, but we need them here so the build env
+    # is solved as closely to host as possible
+    - pip  # [build_platform != target_platform]
+    - tqdm  # [build_platform != target_platform]
+    - pyinstaller  # [build_platform != target_platform]
+    - conda ={{ version }}  # [build_platform != target_platform]
+    - conda-package-handling >=1.6  # [build_platform != target_platform]
+    - menuinst ={{ menuinst_version }}  # [build_platform != target_platform]
+  host:
     - pyinstaller
-    - python ={{ python_version }}
+    - python {{ python_version }}
+    - pip
+    - tqdm
     - conda ={{ version }}
     - conda-package-handling >=1.6
-    - tqdm
-    - menuinst >=1.4.18  # [win]
+    - menuinst ={{ menuinst_version }}
   run_constrained:
-    - constructor >=3.2.2
+    - constructor >={{ constructor_version }}
 
 test:
   files:
     - testprefix
   commands:
-    - ${PREFIX}/standalone_conda/conda.exe -V    # [unix]
+    - ${PREFIX}/standalone_conda/conda.exe info    # [unix]
     - ${PREFIX}/standalone_conda/conda.exe create -y -p ./env_test zlib tqdm    # [unix]
     - ${PREFIX}/standalone_conda/conda.exe constructor --extract-conda-pkgs --prefix testprefix  # [unix]
-    - '%PREFIX%\standalone_conda\conda.exe -V'    # [win]
+    - '%PREFIX%\standalone_conda\conda.exe info'    # [win]
     - '%PREFIX%\standalone_conda\conda.exe create -y -p env_test zlib tqdm'    # [win]
     - '%PREFIX%\standalone_conda\conda.exe constructor --extract-conda-pkgs --prefix testprefix'  # [win]
 

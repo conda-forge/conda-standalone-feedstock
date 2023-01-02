@@ -12,9 +12,11 @@ if [[ $target_platform = "osx-"* ]]; then
   ln -s /usr/bin/codesign "$BUILD_PREFIX/bin/codesign"
 fi
 
-# -F is to create a single file
-# -s strips executables and libraries
-pyinstaller conda.exe.spec
+# when cross-building, we need to run build's python (but without the cross-python magic)
+if [[ $target_platform == osx-* && $build_platform != $target_platform ]]; then  
+  export PYTHON="$BUILD_PREFIX/bin/python"
+fi
+"${PYTHON}" -m PyInstaller conda.exe.spec
 mkdir -p $PREFIX/standalone_conda
 mv dist/conda.exe $PREFIX/standalone_conda
 # clean up .pyc files that pyinstaller creates
