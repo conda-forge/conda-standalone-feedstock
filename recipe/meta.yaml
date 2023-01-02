@@ -35,7 +35,6 @@ requirements:
     - pyinstaller  # [build_platform != target_platform]
     - conda ={{ version }}  # [build_platform != target_platform]
     - conda-package-handling >=1.6  # [build_platform != target_platform]
-    - menuinst ={{ menuinst_version }}  # [build_platform != target_platform]
   host:
     - pyinstaller
     - python {{ python_version }}
@@ -43,7 +42,7 @@ requirements:
     - tqdm
     - conda ={{ version }}
     - conda-package-handling >=1.6
-    - menuinst ={{ menuinst_version }}
+    - menuinst ={{ menuinst_version }}  # [win]
   run_constrained:
     - constructor >={{ constructor_version }}
 
