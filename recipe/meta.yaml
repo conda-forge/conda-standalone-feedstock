@@ -1,5 +1,8 @@
-{% set version = "22.11.1" %}
-{% set constructor_version = "3.3.1" %}
+{% set version = "23.7.2" %}
+{% set conda_version = "23.7.2" %}
+{% set conda_libmamba_solver_version = "23.7.0" %}
+{% set libmambapy_version = "1.4.1" %}
+{% set constructor_version = "3.4.5" %}
 {% set python_version = "3.9.15" %}
 
 package:
@@ -7,17 +10,20 @@ package:
   version: {{ version }}
 
 source:
-  - path: ./
-  - url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
-    sha256: f9256a7e71a9f35063b683f6c7823acf05c1f75468fc609954f1f5efae7c03ac
+  - url: https://github.com/conda/conda-standalone/archive/{{ conda_version }}.tar.gz
+    sha256: d2a26f0b08197f322b705bd73b65f9ff7fe8ef94640a56c2e0d76feaf966f118
+
+  - url: https://github.com/conda/conda/archive/{{ conda_version }}.tar.gz
+    sha256: 141ddbc101c67df54a344f0e41e044b7215f9b73c0876d2bee0c97ecc124e0d4
     folder: conda_src
     patches:
-      - conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
-      - conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch
+      - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch"
+      - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch"
+      - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0003-Return-unknown-module-in-deprecations.patch"
 
   - url: https://github.com/conda/constructor/archive/{{ constructor_version }}.tar.gz  # [win]
-    sha256: b000dde0ac8641c92f7342362173968505d4e85845be37655b5b9221cb65f3a8  # [win]
-    folder: constructor  # [win]
+    sha256: 8483b2b4a4d136ce7d750a3f0d6eb964d5e6295436fab74c7d855ca70f9b6c33  # [win]
+    folder: constructor_src  # [win]
 
 build:
   number: 0
@@ -28,29 +34,28 @@ requirements:
   build:
     - pyinstaller
     - python ={{ python_version }}
-    - conda ={{ version }}
+    - conda ={{ conda_version }}
     - conda-package-handling >=1.6
-    - tqdm
-    - menuinst >=1.4.18  # [win]
+    - menuinst >=1.4.18,<2.0a0  # [win]
+    - conda-libmamba-solver ={{ conda_libmamba_solver_version }}
+    - libmambapy ={{ libmambapy_version }}
   run_constrained:
-    - constructor >=3.2.2
+    - constructor >={{ constructor_version }}
 
 test:
-  files:
-    - testprefix
+  requires:
+    - pytest
+  source_files:
+    - tests
   commands:
-    - ${PREFIX}/standalone_conda/conda.exe -V    # [unix]
-    - ${PREFIX}/standalone_conda/conda.exe create -y -p ./env_test zlib tqdm    # [unix]
-    - ${PREFIX}/standalone_conda/conda.exe constructor --extract-conda-pkgs --prefix testprefix  # [unix]
-    - '%PREFIX%\standalone_conda\conda.exe -V'    # [win]
-    - '%PREFIX%\standalone_conda\conda.exe create -y -p env_test zlib tqdm'    # [win]
-    - '%PREFIX%\standalone_conda\conda.exe constructor --extract-conda-pkgs --prefix testprefix'  # [win]
+    - pytest -vv
 
 about:
-  home: https://github.com/AnacondaRecipes/conda-standalone-feedstock
-  license: BSD-3-Clause
-  license_family: BSD
-  license_file: LICENSE
+  home: https://github.com/conda/conda-standalone
+  license: LicenseRef-CondaStandalone
+  license_file:
+    - LICENSE
+    - 3rd-party-licenses.json
   summary: Entry point and dependency collection for PyInstaller-based standalone conda.
 
 extra:
