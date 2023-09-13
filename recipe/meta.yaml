@@ -1,5 +1,4 @@
 {% set version = "23.7.3" %}
-{% set conda_version = "23.7.3" %}
 {% set conda_libmamba_solver_version = "23.7.0" %}
 {% set libmambapy_version = "1.4.1" %}
 {% set constructor_version = "3.4.5" %}
@@ -13,7 +12,7 @@ source:
   - url: https://github.com/conda/conda-standalone/archive/{{ version }}.tar.gz
     sha256: 0912e072354038a7a2253b5f700c2aa9c5dbe031815859a4a3a5d074550bd971
 
-  - url: https://github.com/conda/conda/archive/{{ conda_version }}.tar.gz
+  - url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
     sha256: c2c7c12a087b03e2d6833fe4d9b4898de0216721d19eb4ac8b573ff833378711
     folder: conda_src
     patches:
@@ -34,7 +33,7 @@ requirements:
   build:
     - pyinstaller
     - python ={{ python_version }}
-    - conda ={{ conda_version }}
+    - conda ={{ version }}
     - conda-package-handling >=1.6
     - menuinst >=1.4.18,<2.0a0  # [win]
     - conda-libmamba-solver ={{ conda_libmamba_solver_version }}
