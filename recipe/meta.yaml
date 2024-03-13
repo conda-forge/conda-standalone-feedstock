@@ -1,6 +1,6 @@
-{% set version = "23.11.0" %}
-{% set conda_libmamba_solver_version = "23.12.0" %}
-{% set libmambapy_version = "1.5.3" %}
+{% set version = "24.1.2" %}
+{% set conda_libmamba_solver_version = "24.1.0" %}
+{% set libmambapy_version = "1.5.6" %}
 {% set constructor_version = "3.6.0" %}
 {% set python_version = "3.10.13" %}
 
@@ -10,22 +10,21 @@ package:
 
 source:
   - url: https://github.com/conda/conda-standalone/archive/{{ version }}.tar.gz
-    sha256: 2b9374d53368bffe2c010b1b659d99be7e0dcf679e916fb2b4942030b3c0712a
+    sha256: b45f14013e843fa4f89a51a4f3498331f7aa2717c6a6f11126d5327749a5d36b
 
   - url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
-    sha256: 9276686c8a6ee536dc451cc6557685724fe275a44949ac4f741066fd23cdc7b4
+    sha256: 6bc4f1f72a0edddefa10e0667d6ab2eb2f1956919a59508bf3bf6c001bf7a6e8
     folder: conda_src
     patches:
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch"
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch"
-      - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0003-Return-unknown-module-in-deprecations.patch"
 
   - url: https://github.com/conda/constructor/archive/{{ constructor_version }}.tar.gz  # [win]
     sha256: d47e6f805337de70a72dea62999853361fbf558e2fbf3a9016c7a007be82ff46  # [win]
     folder: constructor_src  # [win]
 
 build:
-  number: 1
+  number: 0
   ignore_run_exports:
     - '*'
 
@@ -38,6 +37,7 @@ requirements:
     - menuinst >=2.0.2
     - conda-libmamba-solver ={{ conda_libmamba_solver_version }}
     - libmambapy ={{ libmambapy_version }}
+    - archspec >=0.2.3
   run_constrained:
     - constructor >={{ constructor_version }}
 
