@@ -31,6 +31,7 @@ build:
 
 requirements:
   build:
+    - {{ stdlib('c') }}  # [osx and x86_64]
     - pyinstaller
     - python ={{ python_version }}
     - conda ={{ version }}
@@ -41,7 +42,6 @@ requirements:
     - archspec >=0.2.3
   run_constrained:
     - constructor >={{ constructor_version }}
-    - __osx >=10.13  # [osx and x86_64]
 
 test:
   requires:
