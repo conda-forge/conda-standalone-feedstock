@@ -25,12 +25,13 @@ source:
     folder: constructor_src  # [win]
 
 build:
-  number: 0
+  number: 1
   ignore_run_exports:
     - '*'
 
 requirements:
   build:
+    - {{ stdlib('c') }}  # [osx and x86_64]
     - pyinstaller
     - python ={{ python_version }}
     - conda ={{ version }}
