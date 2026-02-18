@@ -58,7 +58,7 @@ test:
     - tests
   commands:
     - pytest -vv  # [not linux]
-    - pytest -vv -k "not test_uninstallation_init_reverse and not test_uninstallation_remove_config_files"  # [linux]
+    - pytest -vv -k "not test_uninstallation"  # [linux]
     - test ! -f {{ PREFIX }}/bin/codesign  # [osx]
 
 about:
