@@ -1,4 +1,4 @@
-{% set version = "25.3.1" %}
+{% set version = "25.11.0" %}
 {% set conda_libmamba_solver_version = "25.3.0" %}
 {% set libmambapy_version = "2.0.5" %}
 {% set constructor_version = "3.11.3" %}
@@ -11,10 +11,10 @@ package:
 
 source:
   - url: https://github.com/conda/conda-standalone/archive/{{ version }}.tar.gz
-    sha256: 783fabe62e5a1afe15fc5fd2d3be9dca44cd3bf8dcfb01eaf72277a0b3208807
+    sha256: ef0453524062e76eaa30b41fb249a54c627761138ca738c0343a8cafd78d975b
 
   - url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
-    sha256: bc1be5746ec00998f063917da09302ab2d7ef4ae69be8fa5189049473635e169
+    sha256: 5995b1ec96c1de0802e41184480933bb3f193a352156c816fb5d151098017407
     folder: conda_src
     patches:
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch"
