@@ -1,4 +1,4 @@
-{% set version = "25.7.0" %}
+{% set version = "25.9.1" %}
 {% set conda_libmamba_solver_version = "25.4.0" %}
 {% set libmambapy_version = "2.0.5" %}
 {% set constructor_lower_bound = "3.12.1" %}
@@ -11,17 +11,16 @@ package:
 
 source:
   - url: https://github.com/conda/conda-standalone/archive/{{ version }}.tar.gz
-    sha256: 0aa0b3fad11d9253d2cd01263744d2d7327ebed7bd98d316d48dca67a09fb968
+    sha256: dd0b7758ae67e36975dafce2964b7f2cf934d14dffb94e53ed104ffe83e00a90
 
   - url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
-    sha256: 18ffef053c4f14db42870f36fab8df162dea5cb14a022a24abb1a3822ef3874c
+    sha256: a8fd4efd493203fc8017f9d80d2d69fbc97a6f583f3da956097eaaf160e84f99
     folder: conda_src
     patches:
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch"
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch"
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0003-Restrict-search-paths.patch"
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0004-Fix-conda-run.patch"
-      - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0005-Use-default-NULL-for-override-frozen.patch"
 
 build:
   number: 0
