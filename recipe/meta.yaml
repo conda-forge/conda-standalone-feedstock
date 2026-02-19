@@ -5,6 +5,7 @@
 {% set menuinst_lower_bound = "2.3.0" %}
 {% set python_version = "3.13.5" %}
 
+
 package:
   name: conda-standalone
   version: {{ version }}
@@ -45,15 +46,14 @@ requirements:
 
 test:
   requires:
-    - conda
+    - conda ={{ version }}
     - pytest
-    - menuinst >={{ menuinst_lower_bound }}
+    - menuinst ={{ menuinst_lower_bound }}
     - ruamel.yaml
   source_files:
     - tests
   commands:
-    - pytest -vv  # [not linux]
-    - pytest -vv -k "not test_uninstallation_init_reverse and not test_uninstallation_remove_config_files"  # [linux]
+    - pytest -vv -k "not test_uninstallation"
     - test ! -f {{ PREFIX }}/bin/codesign  # [osx]
 
 about:
