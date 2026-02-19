@@ -45,15 +45,14 @@ requirements:
 
 test:
   requires:
-    - conda
+    - conda ={{ version }}
     - pytest
-    - menuinst >={{ menuinst_lower_bound }}
+    - menuinst ={{ menuinst_lower_bound }}
     - ruamel.yaml
   source_files:
     - tests
   commands:
-    - pytest -vv  # [not linux]
-    - pytest -vv -k "not test_uninstallation_init_reverse and not test_uninstallation_remove_config_files"  # [linux]
+    - pytest -vv -k "not test_uninstallation"
     - test ! -f {{ PREFIX }}/bin/codesign  # [osx]
 
 about:

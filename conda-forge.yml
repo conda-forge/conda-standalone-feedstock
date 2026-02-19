@@ -1,5 +1,8 @@
 conda_forge_output_validation: true
-provider: {linux_aarch64: default, linux_ppc64le: azure}
+provider:
+  linux_aarch64: default
+  linux_ppc64le: azure
+  osx_arm64: default
 azure:
   # toggle for storing the conda build_artifacts directory (including the
   # built packages) as an Azure pipeline artifact that can be downloaded
