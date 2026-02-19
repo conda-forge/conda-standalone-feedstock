@@ -22,10 +22,6 @@ COPY conda_src\conda\cli\helpers.py "%SP_DIR%\conda\cli\helpers.py" || goto :err
 :: we need these for noarch packages with entry points to work on windows
 COPY "conda_src\conda\shell\cli-%ARCH%.exe" entry_point_base.exe || goto :error
 
-:: This is ordinarily installed by the installer itself, but since we are building for a
-:: standalone and have only an env, not an installation, include it here.
-COPY constructor_src\constructor\nsis\_nsis.py "%PREFIX%\Lib\_nsis.py" || goto :error
-
 pyinstaller --clean --log-level=DEBUG src\conda.exe.spec || goto :error
 MKDIR "%PREFIX%\standalone_conda" || goto :error
 MOVE dist\conda.exe "%PREFIX%\standalone_conda\conda.exe" || goto :error
