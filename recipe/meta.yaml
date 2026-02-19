@@ -1,9 +1,9 @@
-{% set version = "24.11.0" %}
-{% set conda_libmamba_solver_version = "24.9.0" %}
-{% set libmambapy_version = "1.5.11" %}
-{% set constructor_version = "3.10.0" %}
-{% set menuinst_lower_bound = "2.2.0" %}
-{% set python_version = "3.12.8" %}
+{% set version = "25.3.1" %}
+{% set conda_libmamba_solver_version = "25.3.0" %}
+{% set libmambapy_version = "2.0.5" %}
+{% set constructor_version = "3.11.3" %}
+{% set menuinst_lower_bound = "2.3.0" %}
+{% set python_version = "3.12.12" %}
 
 package:
   name: conda-standalone
@@ -11,10 +11,10 @@ package:
 
 source:
   - url: https://github.com/conda/conda-standalone/archive/{{ version }}.tar.gz
-    sha256: 195a13539c1e048a7ce3a3b74e5f6c30813ec339cf811e407f83076d8ecafd83
+    sha256: 783fabe62e5a1afe15fc5fd2d3be9dca44cd3bf8dcfb01eaf72277a0b3208807
 
   - url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
-    sha256: 781cfe0d1bcc8d6f0249ea58a7f9655a5089a8a6eeab1511ab556e6a8e742e23
+    sha256: bc1be5746ec00998f063917da09302ab2d7ef4ae69be8fa5189049473635e169
     folder: conda_src
     patches:
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch"
@@ -23,7 +23,7 @@ source:
 
 
   - url: https://github.com/conda/constructor/archive/{{ constructor_version }}.tar.gz  # [win]
-    sha256: cfb77a5e64b5b2b44fdb5c3d04adbb652c1249a86ea2e88f9b293e367a809caf  # [win]
+    sha256: b1b0bb88a8934508f837c892b4f9c3f08b34bf044b704b1fde44b148c236efbe  # [win]
     folder: constructor_src  # [win]
 
 build:
@@ -50,15 +50,14 @@ requirements:
 
 test:
   requires:
-    - conda
+    - conda ={{ version }}
     - pytest
-    - menuinst >={{ menuinst_lower_bound }}
+    - menuinst ={{ menuinst_lower_bound }}
     - ruamel.yaml
   source_files:
     - tests
   commands:
-    - pytest -vv  # [not linux]
-    - pytest -vv -k "not test_uninstallation_init_reverse and not test_uninstallation_remove_config_files"  # [linux]
+    - pytest -vv -k "not test_uninstallation"
     - test ! -f {{ PREFIX }}/bin/codesign  # [osx]
 
 about:
