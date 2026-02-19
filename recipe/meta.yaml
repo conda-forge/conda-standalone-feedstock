@@ -5,7 +5,6 @@
 {% set menuinst_lower_bound = "2.4.1" %}
 {% set python_version = "3.13.12" %}
 
-
 package:
   name: conda-standalone
   version: {{ version }}
@@ -22,7 +21,6 @@ source:
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch"
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0003-Restrict-search-paths.patch"
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0004-Fix-conda-run.patch"
-
 
 build:
   number: 0

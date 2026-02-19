@@ -1,8 +1,8 @@
 set -euxo pipefail
 
-"${PYTHON}" "${SRC_DIR}/recipe/copy_patches.py"\
-    --patch-source "${SRC_DIR}/src/conda_patches"\
-    --site-packages "${SP_DIR}"\
+"${PYTHON}" "${SRC_DIR}/recipe/copy_patches.py" \
+    --patch-source "${SRC_DIR}/src/conda_patches" \
+    --site-packages "${SP_DIR}" \
     --conda-source conda_src
 
 # make sure pyinstaller finds Apple's codesign first in PATH
