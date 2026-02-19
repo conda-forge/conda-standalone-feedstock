@@ -44,7 +44,7 @@ requirements:
     - libmambapy ={{ libmambapy_version }}
     - archspec >=0.2.3
   run_constrained:
-    - constructor >={{ constructor_version }}
+    - constructor >={{ constructor_lower_bound }}
 
 test:
   requires:
