@@ -20,6 +20,8 @@ source:
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch"
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch"
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0003-Restrict-search-paths.patch"
+      - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0004-Fix-conda-run.patch"
+      - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0005-Use-default-NULL-for-override-frozen.patch"
 
 build:
   number: 0
