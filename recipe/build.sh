@@ -1,11 +1,9 @@
 set -euxo pipefail
 
-# patched conda files
-# new files in patches need to be added here
-for fname in "core/path_actions.py" "utils.py" "deprecations.py" "base/constants.py"; do
-  mv "$SP_DIR/conda/${fname}" "$SP_DIR/conda/${fname}.bak"
-  cp "conda_src/conda/${fname}" "$SP_DIR/conda/${fname}"
-done
+"${PYTHON}" "${SRC_DIR}/recipe/copy_patches.py"\
+    --patch-source "${SRC_DIR}/src/conda_patches"\
+    --site-packages "${SP_DIR}"\
+    --conda-source conda_src
 
 # make sure pyinstaller finds Apple's codesign first in PATH
 # some base installations have 'sigtool', which ships a
