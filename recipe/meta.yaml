@@ -5,7 +5,6 @@
 {% set menuinst_lower_bound = "2.2.0" %}
 {% set python_version = "3.13.12" %}
 
-
 package:
   name: conda-standalone
   version: {{ version }}
