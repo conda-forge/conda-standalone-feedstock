@@ -1,6 +1,6 @@
-{% set version = "25.11.0" %}
+{% set version = "26.1.1" %}
 {% set conda_libmamba_solver_version = "25.11.0" %}
-{% set libmambapy_version = "2.3.2" %}
+{% set libmambapy_version = "2.5.0" %}
 {% set constructor_lower_bound = "3.12.1" %}
 {% set menuinst_lower_bound = "2.4.1" %}
 {% set python_version = "3.13.12" %}
@@ -11,14 +11,13 @@ package:
 
 source:
   - url: https://github.com/conda/conda-standalone/archive/{{ version }}.tar.gz
-    sha256: ef0453524062e76eaa30b41fb249a54c627761138ca738c0343a8cafd78d975b
+    sha256: 616193c4a79ec421fd6393c163b2b905cc8413b3314f55d538b75b2fa53aa883
 
   - url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
-    sha256: 5995b1ec96c1de0802e41184480933bb3f193a352156c816fb5d151098017407
+    sha256: 3ff755d054bbd6b5038b1157223d040d51b5b76713a8985b6fd88d6785d3d6d8
     folder: conda_src
     patches:
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch"
-      - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch"
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0003-Restrict-search-paths.patch"
       - "{{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0004-Fix-conda-run.patch"
 
