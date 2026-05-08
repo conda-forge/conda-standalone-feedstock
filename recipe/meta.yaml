@@ -12,7 +12,7 @@ package:
 
 source:
   - url: https://github.com/conda/conda-standalone/archive/{{ version }}.tar.gz
-    sha256: 4ceca0a7466465f27e0bc9c32af57ec2d3be7d05ef3a4d64138ae1a0862ac021
+    sha256: 158c1ee18974b9907ebf3c0c1e4ddcdf1b7b003fa0dbc7896d9df7618286270e
 
   - url: https://github.com/conda/conda/archive/{{ version }}.tar.gz
     sha256: 0be85f3caf99d609a8cf61977ac061934c5012a048ab0f262ee069d4bbcda730
