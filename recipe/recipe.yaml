@@ -20,17 +20,15 @@ source:
     sha256: 599defcc081883ee23656e146878abc2df344296e152c459a0ef05553c47e1c9
     target_directory: conda_src
     patches:
-      - ${{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
-      - ${{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch
-      - ${{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0003-Restrict-search-paths.patch
-      - ${{ SRC_DIR | replace('\\', '/') }}/src/conda_patches/0004-Fix-conda-run.patch
+      # FIXME: These must come from conda-standalone patches (${{ SRC_DIR }})
+      # https://github.com/prefix-dev/rattler-build/issues/2551
+      - ./src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
+      - ./src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch
+      - ./src/conda_patches/0003-Restrict-search-paths.patch
+      - ./src/conda_patches/0004-Fix-conda-run.patch
 
 build:
   number: 0
-  script:
-    file: build
-    env:
-      PYINSTALLER_CONDARC_DIR: ${{ RECIPE_DIR }}
 
 requirements:
   build:
@@ -46,8 +44,8 @@ requirements:
     - libmambapy =${{ libmambapy_version }}
     - archspec >=0.2.3
   ignore_run_exports:
-    by_name:
-      - "*"
+    from_package: 
+      - ${{ stdlib('c') }}
   run_constraints:
     - constructor >=${{ constructor_lower_bound }}
 
