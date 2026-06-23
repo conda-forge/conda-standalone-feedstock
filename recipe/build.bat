@@ -1,7 +1,7 @@
 @ECHO on
 
 SET "PYINSTALLER_CONDARC_DIR=%RECIPE_DIR%"
-FOR /F "tokens=*" %%g IN ('python -c "import site; print(site.getsitepackages()[0])"') do (SET SP_DIR=%%g)
+FOR /F "tokens=*" %%g IN ('python -c "import site; print(site.getsitepackages()[1])"') do (SET SP_DIR=%%g)
 
 python "%SRC_DIR%\recipe\copy_patches.py" ^
   --patch-source "%SRC_DIR%\src\conda_patches" ^
