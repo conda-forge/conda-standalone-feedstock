@@ -64,6 +64,8 @@ tests:
       strict: true
       files:
         - standalone_conda/conda.exe
+        # These are added in the previous step
+        - etc/conda/test-files/conda-standalone/*
 
 about:
   license: LicenseRef-CondaStandalone
