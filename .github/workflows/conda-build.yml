@@ -48,6 +48,19 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-24.04-arm']
             tools_install_dir: ~/miniforge3
+          - CONFIG: linux_ppc64le_
+            CONFIG_SHORT: linux_ppc64le_
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-ppc64le:alma9
+            STORE_BUILD_ARTIFACTS: True
+            UPLOAD_PACKAGES: True
+            build_workspace_dir: build_artifacts
+            docker_run_args: 
+            free_disk_space: skip
+            os: ubuntu
+            pagefile_size: 0
+            resize_partitions: False
+            runs_on: ['ubuntu-latest']
+            tools_install_dir: ~/miniforge3
     steps:
 
     - name: Checkout code

@@ -1,7 +1,10 @@
 conda_forge_output_validation: true
+build_platform: 
+  linux_aarch64: linux_aarch64
+  osx_arm64: osx_arm64
 provider:
   linux_aarch64: default
-  linux_ppc64le: azure
+  linux_ppc64le: default
   osx_arm64: default
 workflow_settings:
   # toggle for storing the conda build_artifacts directory (including the

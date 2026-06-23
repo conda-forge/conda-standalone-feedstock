@@ -20,12 +20,10 @@ source:
     sha256: 599defcc081883ee23656e146878abc2df344296e152c459a0ef05553c47e1c9
     target_directory: conda_src
     patches:
-      # FIXME: These must come from conda-standalone patches (${{ SRC_DIR }})
-      # https://github.com/prefix-dev/rattler-build/issues/2551
-      - ./src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
-      - ./src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch
-      - ./src/conda_patches/0003-Restrict-search-paths.patch
-      - ./src/conda_patches/0004-Fix-conda-run.patch
+      - ${{ SRC_DIR }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
+      - ${{ SRC_DIR }}/src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch
+      - ${{ SRC_DIR }}/src/conda_patches/0003-Restrict-search-paths.patch
+      - ${{ SRC_DIR }}/src/conda_patches/0004-Fix-conda-run.patch
 
 build:
   number: 0
