@@ -16,13 +16,13 @@ MKDIR "%PREFIX%\standalone_conda" || goto :error
 MOVE dist\conda.exe "%PREFIX%\standalone_conda\conda.exe" || goto :error
 
 :: Collect licenses
-python src\licenses.py ^
+python "%SRC_DIR%\src\licenses.py" ^
   --prefix "%BUILD_PREFIX%" ^
   --include-text ^
   --text-errors replace ^
   --output "%SRC_DIR%\3rd-party-licenses.json" || goto :error
 
-RD /s /q "%PREFIX%\lib" || goto :error
+RD /s /q "%PREFIX%\lib"
 
 goto :EOF
 
