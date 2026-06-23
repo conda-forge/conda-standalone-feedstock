@@ -60,8 +60,10 @@ tests:
         - ruamel.yaml
     script:
       - pytest -vv -k "not test_uninstallation"
-      - if: osx
-        then: test ! -f ${{ PREFIX }}/bin/codesign
+  - package_contents:
+      strict: true
+      files:
+        - standalone_conda/conda.exe
 
 about:
   license: LicenseRef-CondaStandalone
