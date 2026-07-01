@@ -1,6 +1,9 @@
 @ECHO on
 
-"%PYTHON%" "%SRC_DIR%\recipe\copy_patches.py" ^
+SET "PYINSTALLER_CONDARC_DIR=%RECIPE_DIR%"
+FOR /F "tokens=*" %%g IN ('python -c "import site; print(site.getsitepackages()[1])"') do (SET SP_DIR=%%g)
+
+python "%SRC_DIR%\recipe\copy_patches.py" ^
   --patch-source "%SRC_DIR%\src\conda_patches" ^
   --site-packages "%SP_DIR%" ^
   --conda-source conda_src || goto :error
@@ -13,13 +16,13 @@ MKDIR "%PREFIX%\standalone_conda" || goto :error
 MOVE dist\conda.exe "%PREFIX%\standalone_conda\conda.exe" || goto :error
 
 :: Collect licenses
-%PYTHON% src\licenses.py ^
+python "%SRC_DIR%\src\licenses.py" ^
   --prefix "%BUILD_PREFIX%" ^
   --include-text ^
   --text-errors replace ^
   --output "%SRC_DIR%\3rd-party-licenses.json" || goto :error
 
-RD /s /q "%PREFIX%\lib" || goto :error
+RD /s /q "%PREFIX%\lib"
 
 goto :EOF
 

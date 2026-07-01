@@ -1,0 +1,84 @@
+schema_version: 1
+
+context:
+  version: 26.5.2
+  conda_version: ${{ version | replace(".post1", "") }}
+  conda_libmamba_solver_version: "26.4.2"
+  libmambapy_version: "2.8.0"
+  constructor_lower_bound: "3.15.2"
+  menuinst_lower_bound: "2.5.0"
+  python_version: "3.13.13"
+
+package:
+  name: conda-standalone
+  version: ${{ version }}
+
+source:
+  - url: https://github.com/conda/conda-standalone/archive/${{ version }}.tar.gz
+    sha256: 12323fb53979e00243b87d9391b2da4b8eb05b7a0abc988501dd719df41d7b29
+  - url: https://github.com/conda/conda/archive/${{ conda_version }}.tar.gz
+    sha256: 599defcc081883ee23656e146878abc2df344296e152c459a0ef05553c47e1c9
+    target_directory: conda_src
+    patches:
+      - ${{ SRC_DIR }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
+      - ${{ SRC_DIR }}/src/conda_patches/0002-Manipulate-PATH-directly-instead-of-_call_ing-conda.patch
+      - ${{ SRC_DIR }}/src/conda_patches/0003-Restrict-search-paths.patch
+      - ${{ SRC_DIR }}/src/conda_patches/0004-Fix-conda-run.patch
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - if: osx and x86_64
+      then: ${{ stdlib('c') }}
+    - pyinstaller
+    - python =${{ python_version }}
+    - conda =${{ conda_version }}
+    - conda-package-handling >=2.3.0
+    - conda-package-streaming >=0.9.0
+    - menuinst >=${{ menuinst_lower_bound }}
+    - conda-libmamba-solver =${{ conda_libmamba_solver_version }}
+    - libmambapy =${{ libmambapy_version }}
+    - archspec >=0.2.3
+  ignore_run_exports:
+    from_package: 
+      - ${{ stdlib('c') }}
+  run_constraints:
+    - constructor >=${{ constructor_lower_bound }}
+
+tests:
+  - files:
+      source:
+        - tests
+    requirements:
+      run:
+        - conda =${{ conda_version }}
+        - conda-build
+        - pytest
+        - menuinst =${{ menuinst_lower_bound }}
+        - ruamel.yaml
+    script:
+      - pytest -vv -k "not test_uninstallation"
+  - package_contents:
+      strict: true
+      files:
+        - standalone_conda/conda.exe
+        # These are added in the previous step
+        - etc/conda/test-files/conda-standalone/*
+
+about:
+  license: LicenseRef-CondaStandalone
+  license_file:
+    - LICENSE
+    - 3rd-party-licenses.json
+  summary: Entry point and dependency collection for PyInstaller-based standalone conda.
+  homepage: https://github.com/conda/conda-standalone
+
+extra:
+  recipe-maintainers:
+    - jaimergp
+    - jakirkham
+    - msarahan
+    - forrestwaters
+    - nehaljwani

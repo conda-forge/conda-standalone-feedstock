@@ -1,6 +1,9 @@
 set -euxo pipefail
 
-"${PYTHON}" "${SRC_DIR}/recipe/copy_patches.py" \
+export PYINSTALLER_CONDARC_DIR="$RECIPE_DIR"
+SP_DIR="$(python -c "import site; print(site.getsitepackages()[0])")"
+
+python "${SRC_DIR}/recipe/copy_patches.py" \
     --patch-source "${SRC_DIR}/src/conda_patches" \
     --site-packages "${SP_DIR}" \
     --conda-source conda_src
