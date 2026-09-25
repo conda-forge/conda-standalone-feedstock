@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: 26.5.2
+  version: "26.7.0"
   conda_version: ${{ version | replace(".post1", "") }}
   conda_libmamba_solver_version: "26.4.2"
   libmambapy_version: "2.8.0"
@@ -15,9 +15,9 @@ package:
 
 source:
   - url: https://github.com/conda/conda-standalone/archive/${{ version }}.tar.gz
-    sha256: 12323fb53979e00243b87d9391b2da4b8eb05b7a0abc988501dd719df41d7b29
+    sha256: 77d94e06f05c64c7f5218a4070f9ef2cd185ec170a13a407b5efc61be78989ac
   - url: https://github.com/conda/conda/archive/${{ conda_version }}.tar.gz
-    sha256: 599defcc081883ee23656e146878abc2df344296e152c459a0ef05553c47e1c9
+    sha256: efc6e35a6ca572d368741216e3839688f5f47f3a3ba725e08832ee6601862ef0
     target_directory: conda_src
     patches:
       - ${{ SRC_DIR }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
@@ -26,7 +26,7 @@ source:
       - ${{ SRC_DIR }}/src/conda_patches/0004-Fix-conda-run.patch
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
@@ -42,7 +42,7 @@ requirements:
     - libmambapy =${{ libmambapy_version }}
     - archspec >=0.2.3
   ignore_run_exports:
-    from_package: 
+    from_package:
       - ${{ stdlib('c') }}
   run_constraints:
     - constructor >=${{ constructor_lower_bound }}
