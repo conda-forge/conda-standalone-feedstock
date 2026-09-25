@@ -62,6 +62,11 @@ if EXIST LICENSE.txt (
     echo Copying feedstock license
     copy LICENSE.txt "recipe\\recipe-scripts-license.txt"
 )
+if NOT [%HOST_PLATFORM%] == [%BUILD_PLATFORM%] (
+    if [%CROSSCOMPILING_EMULATOR%] == [] (
+        set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --test skip"
+    )
+)
 
 if NOT [%flow_run_id%] == [] (
         set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --extra-meta flow_run_id=%flow_run_id% --extra-meta remote_url=%remote_url% --extra-meta sha=%sha%"
@@ -71,7 +76,7 @@ call :end_group
 
 :: Build the recipe
 echo Building recipe
-rattler-build.exe build --recipe "recipe" -m .ci_support\%CONFIG%.yaml %EXTRA_CB_OPTIONS% --target-platform %HOST_PLATFORM%
+rattler-build.exe build --recipe "recipe" -m .ci_support\%CONFIG%.yaml %EXTRA_CB_OPTIONS% --build-platform %BUILD_PLATFORM% --target-platform %HOST_PLATFORM%
 if !errorlevel! neq 0 exit /b !errorlevel!
 
 call :start_group "Inspecting artifacts"
@@ -82,7 +87,7 @@ call :end_group
 :: Prepare some environment variables for the upload step
 if /i "%CI%" == "github_actions" (
     set "FEEDSTOCK_NAME=%GITHUB_REPOSITORY:*/=%"
-    set "GIT_BRANCH=%GITHUB_REF:refs/heads/=%"
+    set "GIT_BRANCH=%GITHUB_REF_NAME%"
     if /i "%GITHUB_EVENT_NAME%" == "pull_request" (
         set "IS_PR_BUILD=True"
     ) else (
