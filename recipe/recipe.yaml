@@ -17,6 +17,8 @@ package:
 source:
   - url: https://github.com/conda/conda-standalone/archive/${{ version }}.tar.gz
     sha256: ab362c7a6cd39f21c847ad417d7a139aff58ac37a12be4f934ccdf73f4bade34
+    patches:
+      - patches/0001-test-arm64-update-discovery.patch
   - url: https://github.com/conda/conda/archive/${{ conda_version }}.tar.gz
     sha256: 72a3b9e9fa55c54a12261c8f5150b38af1159ffcb913d358b61bf342f04660a8
     target_directory: conda_src
