@@ -26,7 +26,7 @@ source:
       - ${{ SRC_DIR }}/src/conda_patches/0004-Fix-conda-run.patch
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -35,6 +35,8 @@ requirements:
     - pyinstaller
     - python =${{ python_version }}
     - conda =${{ conda_version }}
+    - if: win
+      then: conda-launchers >=24.7.1
     - conda-package-handling >=2.3.0
     - conda-package-streaming >=0.9.0
     - menuinst >=${{ menuinst_lower_bound }}
@@ -51,6 +53,9 @@ tests:
   - files:
       source:
         - tests
+      recipe:
+        - if: win
+          then: test_windows_entrypoints.py
     requirements:
       run:
         - conda =${{ conda_version }}
