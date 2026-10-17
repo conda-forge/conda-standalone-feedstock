@@ -6,7 +6,8 @@ context:
   conda_libmamba_solver_version: "26.7.0"
   libmambapy_version: "2.9.0"
   constructor_lower_bound: "3.17.1"
-  menuinst_lower_bound: "2.5.0"
+  # Native Windows ARM64 packages start at 2.5.2.
+  menuinst_lower_bound: ${{ "2.5.2" if target_platform == "win-arm64" else "2.5.0" }}
   python_version: "3.14.8"
 
 package:
