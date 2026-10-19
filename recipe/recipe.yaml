@@ -32,7 +32,8 @@ requirements:
   build:
     - if: osx and x86_64
       then: ${{ stdlib('c') }}
-    - pyinstaller
+    # https://github.com/conda/conda-standalone/issues/308
+    - pyinstaller <6.22.1
     - python =${{ python_version }}
     - conda =${{ conda_version }}
     - conda-package-handling >=2.3.0
