@@ -1,13 +1,12 @@
 schema_version: 1
 
 context:
-  version: "26.9.2"
+  version: "26.9.3"
   conda_version: ${{ version | replace(".post1", "") }}
   conda_libmamba_solver_version: "26.7.0"
   libmambapy_version: "2.9.0"
   constructor_lower_bound: "3.17.1"
-  # Native Windows ARM64 packages start at 2.5.2.
-  menuinst_lower_bound: ${{ "2.5.2" if target_platform == "win-arm64" else "2.5.0" }}
+  menuinst_lower_bound: "2.5.2"
   python_version: "3.14.8"
 
 package:
@@ -16,11 +15,11 @@ package:
 
 source:
   - url: https://github.com/conda/conda-standalone/archive/${{ version }}.tar.gz
-    sha256: ab362c7a6cd39f21c847ad417d7a139aff58ac37a12be4f934ccdf73f4bade34
+    sha256: 2cbc63b7073f806a2722ba9ca66dfbb4049892b4c16b394637d69a0fcadf3361
     patches:
       - patches/0001-test-arm64-update-discovery.patch
   - url: https://github.com/conda/conda/archive/${{ conda_version }}.tar.gz
-    sha256: 72a3b9e9fa55c54a12261c8f5150b38af1159ffcb913d358b61bf342f04660a8
+    sha256: dbfc9bbce46e6cc7c0a76d54021e1470cf32af4bf069e0045931615de3a3a7cf
     target_directory: conda_src
     patches:
       - ${{ SRC_DIR }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
@@ -29,13 +28,17 @@ source:
       - ${{ SRC_DIR }}/src/conda_patches/0004-Fix-conda-run.patch
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
     - if: osx and x86_64
       then: ${{ stdlib('c') }}
-    - pyinstaller
+    # The onefile activation regression affects Unix; Windows uses patch 0002.
+    # https://github.com/conda/conda-standalone/issues/308
+    - if: unix
+      then: pyinstaller <6.22.1
+      else: pyinstaller
     - python =${{ python_version }}
     - conda =${{ conda_version }}
     - if: win
