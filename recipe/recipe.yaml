@@ -19,7 +19,7 @@ source:
     patches:
       - patches/0001-test-arm64-update-discovery.patch
   - url: https://github.com/conda/conda/archive/${{ conda_version }}.tar.gz
-    sha256: 1028ac365f93604b34b30f9fbf24269e0643e415994f3172d63c58d5a5bb7ad2
+    sha256: 0b084bdaac353c6b1ce8aa6be860d9348eca2b6ba26a3741d615fd704641a1fd
     target_directory: conda_src
     patches:
       - ${{ SRC_DIR }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
