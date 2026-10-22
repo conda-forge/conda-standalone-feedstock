@@ -8,8 +8,8 @@ python "%SRC_DIR%\recipe\copy_patches.py" ^
   --site-packages "%SP_DIR%" ^
   --conda-source conda_src || goto :error
 
-:: we need these for noarch packages with entry points to work on windows
-COPY "conda_src\conda\shell\cli-%ARCH%.exe" entry_point_base.exe || goto :error
+:: conda-launchers supplies native stubs for all supported Windows architectures.
+COPY "%BUILD_PREFIX%\share\conda-launchers\cli-%ARCH%.exe" entry_point_base.exe || goto :error
 
 pyinstaller --clean --log-level=DEBUG src\conda.exe.spec || goto :error
 MKDIR "%PREFIX%\standalone_conda" || goto :error
