@@ -1,3 +1,5 @@
+DOCKER_PLATFORM:
+- linux/ppc64le
 c_stdlib:
 - sysroot
 c_stdlib_version:
