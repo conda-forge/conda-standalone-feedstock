@@ -76,6 +76,11 @@ if EXIST %FEEDSTOCK_ROOT%\LICENSE.txt (
     echo Copying feedstock license
     copy "%FEEDSTOCK_ROOT%\\LICENSE.txt" "%RECIPE_ROOT%\\recipe-scripts-license.txt"
 )
+if NOT [%HOST_PLATFORM%] == [%BUILD_PLATFORM%] (
+    if [%CROSSCOMPILING_EMULATOR%] == [] (
+        set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --test skip"
+    )
+)
 
 if NOT [%flow_run_id%] == [] (
         set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --extra-meta flow_run_id=%flow_run_id% --extra-meta remote_url=%remote_url% --extra-meta sha=%sha%"

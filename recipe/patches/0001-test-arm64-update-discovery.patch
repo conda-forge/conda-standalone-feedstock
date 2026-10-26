@@ -1,0 +1,84 @@
+Use local repodata to test update discovery before the first ARM64 publication.
+Existing platforms retain their live-channel check; the ARM64 test still runs
+the frozen update lookup and reads a real channel index.
+
+--- a/tests/test_update_bootstrapper.py
++++ b/tests/test_update_bootstrapper.py
+@@ -13,8 +13,10 @@
+ from __future__ import annotations
+ 
+ import inspect
++import json
+ import os
+ import sys
++import sysconfig
+ from textwrap import dedent
+ from typing import TYPE_CHECKING
+ 
+@@ -48,17 +50,24 @@
+ # ---------------------------------------------------------------------------
+ 
+ 
+-def _script_find_update():
++def _script_find_update(channel_url: str | None):
++    import os
++
+     from conda.base.context import reset_context
+ 
+     from conda_constructor.update_bootstrapper import _find_update
+ 
+     os.environ["CONDA_RESTRICT_SEARCH_PATH"] = "1"
++    if channel_url is not None:
++        os.environ["CONDA_CHANNELS"] = channel_url
+     reset_context()
+ 
+     match = _find_update("1.0.0", 0)
+     assert match is not None
+     assert match.name == "conda-standalone"
++    if channel_url is not None:
++        assert match.version == "99.0.0"
++        assert match.subdir == "win-arm64"
+     print("PASS")
+ 
+ 
+@@ -306,9 +315,38 @@
+     run_conda("constructor", "update-bootstrapper", "--help", check=True)
+ 
+ 
+-def test_find_update():
++def test_find_update(tmp_path: Path):
+     """Test _find_update finds a newer version when one exists."""
+-    process = _run_script(_script_find_update)
++    channel_url = None
++    if sysconfig.get_platform() == "win-arm64":
++        # The first ARM64 build has no published update to discover yet.
++        # Query real local repodata without mocking the update lookup.
++        channel = tmp_path / "updates"
++        record = {
++            "name": "conda-standalone",
++            "version": "99.0.0",
++            "build": "test_0",
++            "build_number": 0,
++            "subdir": "win-arm64",
++            "depends": [],
++        }
++        for subdir in ("win-arm64", "noarch"):
++            index = channel / subdir
++            index.mkdir(parents=True)
++            packages = (
++                {"conda-standalone-99.0.0-test_0.conda": record} if subdir == "win-arm64" else {}
++            )
++            (index / "repodata.json").write_text(
++                json.dumps(
++                    {
++                        "info": {"subdir": subdir},
++                        "packages": {},
++                        "packages.conda": packages,
++                    }
++                )
++            )
++        channel_url = channel.as_uri()
++    process = _run_script(_script_find_update, channel_url=channel_url)
+     assert process.returncode == 0
+     assert "PASS" in process.stdout
+ 
