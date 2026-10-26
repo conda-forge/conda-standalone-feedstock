@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "26.9.4"
+  version: "26.9.4.post1"
   conda_version: ${{ version | replace(".post1", "") }}
   conda_libmamba_solver_version: "26.7.0"
   libmambapy_version: "2.9.0"
@@ -15,7 +15,7 @@ package:
 
 source:
   - url: https://github.com/conda/conda-standalone/archive/${{ version }}.tar.gz
-    sha256: a181934ff65359115f3b695f474cea8ba4c78b517876183cb781d8baa26a95ea
+    sha256: 723306aabf14c7592d25cce887e943349f14786563fc6e5cf643622b45bb1685
     patches:
       - patches/0001-test-arm64-update-discovery.patch
   - url: https://github.com/conda/conda/archive/${{ conda_version }}.tar.gz
@@ -28,7 +28,7 @@ source:
       - ${{ SRC_DIR }}/src/conda_patches/0004-Fix-conda-run.patch
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
