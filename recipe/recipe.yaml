@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "26.9.4.post1"
+  version: "26.10.0"
   conda_version: ${{ version | replace(".post1", "") }}
   conda_libmamba_solver_version: "26.7.0"
   libmambapy_version: "2.9.0"
@@ -15,11 +15,11 @@ package:
 
 source:
   - url: https://github.com/conda/conda-standalone/archive/${{ version }}.tar.gz
-    sha256: 723306aabf14c7592d25cce887e943349f14786563fc6e5cf643622b45bb1685
+    sha256: 924ef68c07134f6b96d3e86654ab4d4b33d6ba078a07bcae1d208f9b41b8b140
     patches:
       - patches/0001-test-arm64-update-discovery.patch
   - url: https://github.com/conda/conda/archive/${{ conda_version }}.tar.gz
-    sha256: 0b084bdaac353c6b1ce8aa6be860d9348eca2b6ba26a3741d615fd704641a1fd
+    sha256: 47ae5bfe93dc4c7386c87abdc15d25bd949653262ec331d489e5a9693a3b7dc4
     target_directory: conda_src
     patches:
       - ${{ SRC_DIR }}/src/conda_patches/0001-Rename-and-replace-entrypoint-stub-exe.patch
